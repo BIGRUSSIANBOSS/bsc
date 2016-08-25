@@ -1,12 +1,8 @@
-# bsc-barcode-war
+npm install && bower install
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.15.1.
+npm install -g grunt-cli
 
-## Build & development
+grunt serve --force
 
-Run `grunt` for building and `grunt serve` for preview.
+// не помню всех моментов, проект достаточно старый
 
-## Testing
-
-Running `grunt test` will run the unit tests with karma.
