@@ -1,0 +1,116 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav class="navbar navbar-default m-b-0 br-0">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <a class="navbar-brand">История</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse" style="padding-top: 2px;">
+
+            <form class="navbar-form navbar-right" role="search">
+              <div class="form-group">
+                <div class="input-group input-group-sm">
+                  <span class="input-group-addon" id="logfrom"> Дата ОТ </span>
+                  <input type="datetime-local" class="form-control" ng-model="logfrom" aria-describedby="logfrom">
+                </div>
+                <div class="input-group input-group-sm">
+                  <span class="input-group-addon" id="logto"> Дата ДО </span>
+                  <input type="datetime-local" class="form-control" ng-model="logto" aria-describedby="logto">
+                </div>
+                <div class="input-group input-group-sm" style="width: 175px;">
+                  <span class="input-group-addon" id="terminalId"> Терминал </span>
+                  <input type="text" class="form-control" placeholder="ИД терминала" ng-model="terminalId" aria-describedby="terminalId">
+                </div>
+                <div class="input-group input-group-sm" style="width: 250px;">
+                  <span class="input-group-addon" id="barcode" data-container="body"> Штрих содержит </span>
+                  <input type="text" class="form-control" placeholder="" ng-model="barcode" aria-describedby="barcode">
+                </div>
+                <div class="input-group input-group-sm" style="width: 200px;">
+                  <span class="input-group-addon" id="result"> Результат </span>
+                  <input type="text" class="form-control" placeholder="OK|ERROR" ng-model="result" aria-describedby="result">
+
+                  <div class="input-group-btn input-group-sm">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a ng-click="result = 'OK'">OK</a></li>
+                      <li><a ng-click="result = 'ERROR'">ERROR</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary btn-sm" ng-click="logEvents()" ng-disabled="responceStatus != 200">Искать</button>
+              </div>
+            </form>
+
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+
+      </nav>
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="payment-grid m-t-5" ui-grid="gridOptions" ui-grid-selection></div>
+
+    </div>
+    <div class="col-md-3">
+
+      <div class="panel panel-default br-0 m-t-5" ng-show="currentDetail">
+        <div class="panel-heading">
+          Терминал {{currentDetail.terminalId}}
+          <div class="pull-right" ng-class="{'text-success':currentDetail.result.runtimeCode == 'OK', 'text-danger':currentDetail.result.runtimeCode == 'ERROR'}">
+            {{currentDetail.result.runtimeCode}}
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">
+                <p style="word-wrap: break-word;">{{currentDetail.strBarcode}}</p>
+              </div>
+              <div class="col-md-12 text-center">
+                <button class="btn btn-primary btn-xs w100" ng-click="checkBASE(currentDetail.encodedBarcode,currentDetail.terminalId)">
+                  В тесты
+                </button>
+              </div>
+              <div class="col-md-4 text-center m-t-10">
+                <button class="btn btn-primary btn-xs w100" ng-click="showHandler(currentHandler.handlerId,currentDetail.encodedBarcode)">
+                  В handler
+                </button>
+              </div>
+              <div class="col-md-8 text-center m-t-10">
+                <select class="w100" ng-options="handler.name+'('+handler.type+')' for handler in handlers" ng-model="currentHandler">
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <table class="table">
+          <tr>
+            <th>ИД сервиса</th>
+            <th>Handler</th>
+            <th>Аттрибуты</th>
+          </tr>
+          <tr ng-repeat="detail in currentDetail.logDetail">
+            <td>
+              <a href="http://bsdmw:8080/manage/#/service/{{detail.serviceId}}" target="_blank" onclick="window.open(this.href, '', 'scrollbars=1,height='+screen.availHeight+',width='+screen.availWidth*2/3); return false;">
+                {{detail.serviceId}}
+              </a>
+            </td>
+            <td>
+              <p>{{currentDetail.handlerName}}</p>
+              <a href="#/handler/{{detail.handlerVersion.hanlderId}}?barcode={{encodeURIComponent(currentDetail.encodedBarcode)}}&terminal={{currentDetail.terminalId}}" target="_blank">Handler: {{detail.handlerVersion.hanlderId}}</a></td>
+            <td>{{detail.attrs}}</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+{
+  "realm": "erc-internal",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAj974O79pnZLMPLYWNQN8XjpZDWNzjDOAcBQAZYJbgamCCTguJnUE03fTvrx4XgS3my22+PTigDqtmYbVGJzhk+m69nc/DrH1zVayJL7ReUv3enWzgVybkyEPoAZCO4r+xRA21OMuvMGhgq2fDGWL2uYy2kOUiDvGr2FsX7Naz6HE2KpHuKK4TrVJxNnmvphz0KQZOiImy0bfUkwJR3ufiS4cWB89sn+CU5JG7OVTfLya1xqX7zvZpvVUydLVn1gjiH87eT13/wFkTu/qcVG8pT7zNC/4kGV+Ap9BJvC2bZbpJkodMZ1afdHJ3zv8Kv+QVlvkXVAsNJhW6/VlAIynkwIDAQAB",
+  "auth-server-url": "/auth",
+  "ssl-required": "external",
+  "resource": "barcode_testing",
+  "public-client": true
+}

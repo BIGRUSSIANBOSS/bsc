@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href=fonts/flaticon.css>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <link rel="stylesheet" href="bower_components/alertify.js/themes/alertify.core.css">
+    <link rel="stylesheet" href="bower_components/alertify.js/themes/alertify.default.css">
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/ng-table/dist/ng-table.min.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/animate.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="bscBarcodeWarApp" ng-controller="appCtrl">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="header">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+
+            <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">-->
+              <!--<span class="sr-only">Toggle navigation</span>-->
+              <!--<span class="icon-bar"></span>-->
+              <!--<span class="icon-bar"></span>-->
+              <!--<span class="icon-bar"></span>-->
+            <!--</button>-->
+
+            <a class="navbar-brand" href="#/">Сканер штрих-кодов.</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="js-navbar-collapse">
+
+            <ul class="nav navbar-nav">
+              <li ng-class="{'active': location == '/'}"><a href="#/">История</a></li>
+              <li ng-class="{'active': location == '/manage'}"><a ng-href="#/manage">Управление</a></li>
+              <li ng-class="{'active': location == '/test'}"><a ng-href="#/test">Проверка</a></li>
+              <!--<li><a ng-href="#/search">Поиск</a></li>-->
+            </ul>
+
+            <!--<ul class="nav navbar-nav navbar-right" ng-show="AUTH.loggedIn">-->
+              <!--<li><a><b>{{AUTH.authz.userInfo.preferred_username}}</b></a></li>-->
+              <!--<li><a href ng-click="AUTH.authz.logout()">выйти</a></li>-->
+            <!--</ul>-->
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+    <div ng-view=""></div>
+    </div>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
+    <script src="bower_components/ng-clip/src/ngClip.js"></script>
+    <script src="bower_components/js-beautify/js/lib/beautify.js"></script>
+    <script src="bower_components/js-beautify/js/lib/beautify-css.js"></script>
+    <script src="bower_components/js-beautify/js/lib/beautify-html.js"></script>
+    <script src="bower_components/alertify.js/lib/alertify.js"></script>
+    <script src="bower_components/angular-clipboard/angular-clipboard.js"></script>
+    <script src="bower_components/ng-table/dist/ng-table.min.js"></script>
+    <script src="bower_components/angular-smart-table/dist/smart-table.js"></script>
+    <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <script src="bower_components/ace-build/src-min/ace.js"></script>
+    <script src="bower_components/ace-build/src-min/mode-javascript.js"></script>
+    <script src="bower_components/ace-build/src-min/theme-eclipse.js"></script>
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <!--<script src="scripts/keycloak.js"></script>-->
+    <!--<script src="scripts/modules/product.js"></script>-->
+    <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/manage.js"></script>
+        <script src="scripts/controllers/test.js"></script>
+        <script src="scripts/controllers/search.js"></script>
+        <script src="scripts/services/connector.js"></script>
+        <script src="scripts/services/share.js"></script>
+        <script src="scripts/services/handler.js"></script>
+        <script src="scripts/controllers/handlers.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

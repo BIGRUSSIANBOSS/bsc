@@ -1,0 +1,180 @@
+
+<div class="container-fluid" equalizer ng-class="{'deletedVersion':versionSelector.del}">
+  <div class="row">
+
+    <div class="col-md-12">
+      <nav class="navbar navbar-default m-b-0 br-0">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <a class="navbar-brand">{{ versions.name }} ({{versions.type}}) <span ng-show="versions.type == 'LOCAL'">Сервис: {{versions.serviceId}}</span></a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse">
+
+            <select
+              name="version"
+              class="form-control w-a pull-right m-t-10"
+              ng-model="versionSelector"
+              ng-options="version.version+'-'+version.prodStatus.name+'-'+version.devStatus.name for version in versions.versions"
+              id="version">
+              <!--<option ng-value="version" ng-repeat="version in versions.versions">{{ version.version }} - {{ version.prodStatus.name }} - {{ version.devStatus.name }}</option>-->
+            </select>
+
+            <div class="btn-group m-t-15 m-r-10 pull-right" role="group">
+              <button type="button" class="btn btn-warning btn-xs" ng-click="testOK()" ng-disabled="versionSelector.devStatus.runtimeCode != 'DEVELOP' && versionSelector.devStatus.runtimeCode !='TESTFAILED'">Тест ОК</button>
+              <button type="button" class="btn btn-danger btn-xs" ng-click="testFAIL()" ng-disabled="(versionSelector.devStatus.runtimeCode != 'DEVELOP' && versionSelector.devStatus.runtimeCode !='TESTOK') || versionSelector.prodStatus.runtimeCode == 'PRODUCTION'">Тест FAIL</button>
+              <button type="button" class="btn btn-warning btn-xs" ng-click="revokeProduction()" ng-disabled="versionSelector.prodStatus.runtimeCode != 'PRODUCTION'">Отозвать</button>
+              <button type="button" class="btn btn-success btn-xs" ng-click="versionToProd()" ng-disabled="!(versionSelector.devStatus.runtimeCode == 'TESTOK' && versionSelector.prodStatus.runtimeCode != 'PRODUCTION')">В продакшн</button>
+            </div>
+
+            <div class="btn-group m-t-15 m-r-10 pull-right" role="group">
+              <button type="button" class="btn btn-info btn-xs" ng-click="dropzone = !dropzone">Drop file</button>
+            </div>
+
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+
+      </nav>
+
+      <div class="container-fluid description-container m-b-5">
+        <div class="row">
+          <div class="col-md-12">
+            {{versions.descr || '&nbsp;'}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-6 m-b-5" ng-show="dropzone">
+      <div id="drop_zone" class="text-center">Сбрось файлы для создания версий</div>
+    </div>
+    <div class="col-md-6 m-b-5" ng-show="dropzone">
+      <div id="drop_zone1" class="text-center">Сбрось файл чтобы закинуть в редактор</div>
+    </div>
+
+    <div class="col-md-3 p-b-50" ng-class="{'col-md-12':widerDetails}" ng-show="aloneResponceToggle && !widerEditor">
+
+      <div class="inner-header">
+        <div class="header-wrapper">
+          <label class="m-t-10 m-b-0">Результат ({{aloneResponce.length}} шт.)</label>
+          <button type="button" class="close m-t-10" data-dismiss="alert" aria-label="Close" ng-click="aloneResponceToggle = !aloneResponceToggle"><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close m-t-10" ng-click="widerDetails = !widerDetails"><span aria-hidden="true"><i class="flaticon-arrows"></i></span></button>
+        </div>
+      </div>
+
+      <div class="container-fluid" equalizer="panels">
+        <div class="row">
+          <div class="col-md-3" ng-class="{'col-md-12 p-0':!widerDetails}" ng-repeat="aresp in aloneResponce">
+
+            <div class="panel panel-default br-0 m-b--10 m-t-5">
+              <div class="panel-heading text-center">
+                <span
+                  class="m-r-5"
+                  ng-class="{'text-success':aresp.matchResult.match,'text-danger':!aresp.matchResult.match}">match: {{aresp.matchResult.match}};</span>
+                <span class="m-r-5" ng-class="{'text-success':aresp.matchResult.composeRule.skipDefault,'text-danger':!aresp.matchResult.composeRule.skipDefault}">skipDefault: {{aresp.matchResult.composeRule.skipDefault}};</span>
+                <span class="m-r-5" ng-class="{'text-success':aresp.matchResult.composeRule.skipAll,'text-danger':!aresp.matchResult.composeRule.skipAll}">skipAll: {{aresp.matchResult.composeRule.skipAll}};</span>
+              </div>
+            </div>
+            <div class="panel panel-default br-0 m-t-5" equal>
+              <div class="panel-heading">
+                <a href="http://bsdmw:8080/manage/#/service/{{aresp.serviceId}}" onclick="window.open(this.href, '', 'scrollbars=1,left='+screen.availWidth/3+',height='+screen.availHeight+',width='+screen.availWidth*2/3); return false;" target="_blank">
+                  Сервис {{aresp.serviceId}}
+                </a>
+                <div class="pull-right">Сумма: {{aresp.amount}}</div>
+              </div>
+              <div class="panel-body">
+                <h3>Реквизиты</h3>
+              </div>
+              <table class="table table-bordered">
+                <tr ng-repeat="(key,attr) in aresp.requisires">
+                  <td>{{key}}</td>
+                  <td>{{attr}}</td>
+                </tr>
+              </table>
+              <div class="panel-body">
+                <h3>Атрибуты</h3>
+              </div>
+              <table class="table table-bordered">
+                <tr ng-repeat="(key,attr) in aresp.attr">
+                  <td>{{key}}</td>
+                  <td>{{attr}}</td>
+                </tr>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-md-3 p-b-50" ng-show="!aloneResponceToggle && !widerEditor">
+
+      <div class="inner-header">
+        <div class="header-wrapper">
+          <label for="versionDescr" class="m-t-10 m-b-0">Описание версии</label>
+        </div>
+      </div>
+      <textarea name="versionDescr" id="versionDescr" ng-model="versionSelector.description" class="form-control m-t-5 br-0" equal></textarea>
+
+    </div>
+
+    <div class="col-md-3 p-b-50" ng-show="!widerEditor">
+
+      <div class="inner-header">
+        <div class="header-wrapper">
+          <label for="barcodeTest" class="m-t-10 m-b-0">Штрих код/<small class="text-muted">Функции</small></label>
+
+          <div class="form-group pull-right m-t-5 m-b-0">
+            <div class="btn-group pull-right" role="group">
+              <button type="button" class="btn btn-info btn-sm" ng-click="testAlone()">alone</button>
+              <button type="button" class="btn btn-primary btn-sm" ng-click="testUnited()">united</button>
+            </div>
+
+            <div class="input-group input-group-sm m-r-5 pull-right" style="width:80px;" data-toggle="tooltip" data-placement="bottom" title="ИД терминала">
+              <span class="input-group-addon" id="terminalId">T</span>
+              <input type="text" class="form-control text-right" placeholder="ИД терминала" ng-model="terminalId" aria-describedby="terminalId">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <textarea name="barcodeTest" id="barcodeTest" ng-model="barcodeTest" ng-keydown="checkTest($event)" class="form-control m-t-5 br-0" equal="2" placeholder="base64" autofocus></textarea>
+      <textarea name="barcodeText" id="barcodeText" ng-model="barcodeText" class="form-control m-t-5 br-0" equal="2" placeholder="text" ng-disabled="true"></textarea>
+
+    </div>
+    <div class="col-md-6 box" ng-class="{'col-md-12':widerEditor}">
+
+      <div class="inner-header">
+        <div class="header-wrapper">
+          <label for="editor" class="m-t-10 m-b-0">Редактор <span class="btn btn-xs" ng-class="{'btn-success': match.match == true,'btn-danger': match.match == false}"><span class="badge">M</span></span></label>
+
+          <div class="btn-group m-t-10 m-l-15 pull-right" role="group">
+            <button type="button" class="btn btn-danger btn-xs" ng-click="deleteVersion()" ng-disabled="versionSelector.prodStatus.runtimeCode == 'PRODUCTION'">Удалить</button>
+          </div>
+
+          <div class="btn-group m-t-10 m-r-0 pull-right" role="group">
+            <button type="button" class="btn btn-success btn-xs" ng-click="updateVersion()" ng-disabled="versionSelector.prodStatus.runtimeCode == 'PRODUCTION'">Сохранить</button>
+            <button type="button" class="btn btn-info btn-xs" ng-click="newVersions()">Новая версия</button>
+            <button type="button" class="btn btn-default btn-xs" ng-click="copyVersion()">Копия</button>
+          </div>
+
+          <button type="button" class="close m-t-10" ng-click="widerEditor = !widerEditor"><span aria-hidden="true"><i class="flaticon-arrows"></i></span></button>
+
+        </div>
+      </div>
+      <div id="editor" class="m-t-5" ng-class="{'vh90': widerEditor}" equal>
+        5555555 5555555 5555555
+        5       5     5 5
+        5555555 5     5 5555555
+              5 5     5       5
+              5 5     5       5
+        5555555 5555555 5555555
+      </div>
+    </div>
+  </div>
+</div>

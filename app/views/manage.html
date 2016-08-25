@@ -1,0 +1,147 @@
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+
+          <!--<div class="input-group m-t-10 m-b-10">-->
+            <!--<span class="input-group-addon" id="search">🔍</span>-->
+            <!--<input type="text" class="form-control" placeholder="Поиск" ng-keyup="searchHandler()" ng-model="searchString" aria-describedby="search">-->
+          <!--</div>-->
+
+            <div class="panel panel-default br-0 m-b-80">
+                <div class="panel-heading">
+                    Найдено {{ handlers.length }}
+                    <button class="btn btn-default btn-xs pull-right" ng-click="newHandlerModal()">
+                        Новый
+                    </button>
+                    <button class="btn btn-danger btn-xs pull-right m-r-10" ng-disabled="cacheBtn" ng-click="refreshNow()">
+                        Обновить кеш
+                    </button>
+                </div>
+
+                <table class="table table-hover table-linked">
+                  <tr class="info">
+                    <th ng-click="sortBy('handlerId', !filter.sorter.handlerId.direction)">
+                      ID <i class="flaticon-arrows-5 sort-icon pull-right" ng-class="{'rot180': !filter.sorter.handlerId.direction}"></i>
+                    </th>
+                    <th ng-click="sortBy('name', filter.sorter.name.direction)">
+                      Название <i class="flaticon-arrows-5 sort-icon pull-right" ng-class="{'rot180': !filter.sorter.name.direction}"></i>
+                    </th>
+                    <th ng-click="sortBy('descr', filter.sorter.descr.direction)">
+                      Описание <i class="flaticon-arrows-5 sort-icon pull-right" ng-class="{'rot180': !filter.sorter.descr.direction}"></i>
+                    </th>
+                    <th ng-click="sortBy('type', filter.sorter.type.direction)">
+                      Статус <i class="flaticon-arrows-5 sort-icon pull-right" ng-class="{'rot180': !filter.sorter.type.direction}"></i>
+                    </th>
+                    <th ng-click="sortBy('serviceId', filter.sorter.serviceId.direction)">
+                      Сервис <i class="flaticon-arrows-5 sort-icon pull-right" ng-class="{'rot180': !filter.sorter.serviceId.direction}"></i>
+                    </th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                  <tr class="table-search">
+                    <th class="w-50">
+
+                    </th>
+                    <th>
+                      <div class="input-group input-group-sm w100">
+                        <input type="text" class="form-control" placeholder="Название" ng-model="Hname" ng-keyup="searchInTableBy('name')">
+                      </div>
+                    </th>
+                    <th>
+                      <div class="input-group input-group-sm w100">
+                        <input type="text" class="form-control" placeholder="Описание" ng-model="Hdescr" ng-keyup="searchInTableBy('descr')">
+                      </div>
+                    </th>
+                    <th>
+                      <div class="input-group input-group-sm w100">
+                        <input type="text" class="form-control" placeholder="Статус" ng-model="Htype" ng-keyup="searchInTableBy('type')">
+                      </div>
+                    </th>
+                    <th>
+                      <div class="input-group input-group-sm w100">
+                        <input type="text" class="form-control" placeholder="Сервис" ng-model="HserviceId" ng-keyup="searchInTableBy('serviceId')">
+                      </div>
+                    </th>
+                    <th colspan="2">
+                      <button class="btn btn-primary btn-sm" ng-click="clearFilter()">
+                        очистить
+                      </button>
+                    </th>
+                  </tr>
+                    <tr ng-repeat="handler in handlers track by $index" ng-show="handler.visible == true" ng-class="{'sm-handler active':activeBarcode_id == handler.handlerId, 'warning': handler.type == 'DEFAULT'}">
+                      <td>
+                        <a href="#/handler/{{handler.handlerId}}" target="_blank">
+                          {{ handler.handlerId }}
+                        </a>
+                      </td><td>
+                      <a href="#/handler/{{handler.handlerId}}" target="_blank">
+                        {{ handler.name }}
+                      </a>
+                    </td>
+                        <td>
+                          <a href="#/handler/{{handler.handlerId}}" target="_blank">
+                            {{ handler.descr || '&nbsp;' }}
+                          </a>
+                        </td>
+                        <td>
+                          <a href="#/handler/{{handler.handlerId}}" target="_blank">
+                            {{ handler.type }}
+                          </a>
+                        </td>
+                      <td>
+                        <a href="#/handler/{{handler.handlerId}}" target="_blank">
+                          {{ handler.serviceId }}
+                        </a>
+                      </td>
+                      <td class="relative" width="37">
+                        <div class="btn btn-edit">
+                          <i class="flaticon-tool"></i>
+                        </div>
+                      </td>
+                      <td class="relative" width="37" ng-click="deleteConfirm(handler)">
+                        <div class="btn btn-delete">
+                          <i class="flaticon-delete"></i>
+                        </div>
+                      </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" ng-class="{'in': newHandelModalToggle}" ng-show="newHandelModalToggle">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="newHandelModalToggle = false"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Новый хэндлер</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <span class="input-group-addon" id="newname"> H </span>
+                    <input type="text" class="form-control" placeholder="Название" ng-model="newname" aria-describedby="newname">
+                </div>
+                <div class="input-group m-t-10">
+                    <span class="input-group-addon" id="descr"> О </span>
+                    <input type="text" class="form-control" placeholder="Описание" ng-model="descr" aria-describedby="descr">
+                </div>
+                <div class="btn-group" data-toggle="buttons">
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="handlerType">Default</label>
+                    </div>
+                </div>
+                <div class="input-group m-t-10 m-b-10" ng-show="!handlerType">
+                    <span class="input-group-addon" id="service_id"> С </span>
+                    <input type="text" class="form-control" placeholder="Сервис" ng-model="service_id" aria-describedby="service_id">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="newHandelModalToggle = false">Отмена</button>
+                <button type="button" class="btn btn-primary" ng-click="newHandler()">Создать</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,124 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+
+      <nav class="navbar navbar-default m-b-0 br-0">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <a class="navbar-brand">Распознать онлайн</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse" style="padding-top: 2px;">
+
+            <form class="navbar-form navbar-right" role="search">
+              <div class="input-group input-group-sm">
+                <span class="input-group-addon m-t-10" id="terminalId"> T </span>
+                <input type="text" class="form-control" placeholder="ИД терминала" ng-model="terminalId" aria-describedby="terminalId">
+              </div>
+              <div class="input-group input-group-sm">
+                <span class="input-group-addon" id="serviceId"> С </span>
+                <input type="text" class="form-control" placeholder="ИД сервиса" ng-model="serviceId" aria-describedby="serviceId">
+              </div>
+              <div class="btn-group" role="group">
+                <button type="button" class="btn btn-default btn-sm" ng-disabled="!base64" ng-click="base64 =''">Очистить</button>
+                <button type="button" class="btn btn-primary btn-sm" ng-click="translate()" ng-disabled="responceStatus != 200">Искать</button>
+              </div>
+            </form>
+
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+
+      </nav>
+
+    </div>
+    <div class="col-md-9" id="animated1">
+
+      <div class="inner-header m-t-5">
+        <div class="header-wrapper">
+          <label for="base64" class="m-t-10 m-b-0">base64</label>
+        </div>
+      </div>
+      <textarea name="base64" id="base64" ng-model="base64" rows="10" class="form-control m-t-0 br-0"></textarea>
+
+      <div class="inner-header m-t-5">
+        <div class="header-wrapper">
+          <label for="base64text" class="m-t-10 m-b-0">Text</label>
+        </div>
+      </div>
+
+      <textarea name="base64" id="base64text" ng-model="base64text" rows="10" class="form-control m-t-0 br-0" ng-disabled="true"></textarea>
+
+    </div>
+    <div class="col-md-3" id="animated2">
+      <table class="table">
+        <tr ng-repeat="form in forms">
+          <td>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-xs-12">
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading">Сервис {{ form.serviceId }}</div>
+                    <table class="table">
+                      <tr>
+                        <td>
+                          ИД сервиса:
+                        </td>
+                        <td>
+                          <a href="http://bsdmw:8080/manage/#/service/{{ form.serviceId }}" onclick="window.open(this.href, '', 'scrollbars=1,height='+screen.availHeight+',width='+screen.availWidth*2/3); return false;">
+                            {{ form.serviceId }}
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Label:
+                        </td>
+                        <td>
+                          {{ form.label }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          Amount:
+                        </td>
+                        <td>
+                          {{ form.amount }}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          wwwName:
+                        </td>
+                        <td>
+                          {{ form.wwwName }}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-xs-12">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">Параметры</div>
+                    <table class="table">
+                      <tr ng-repeat="(attrname, attr) in form.attr">
+                        <td>
+                          {{ attrname }}
+                        </td>
+                        <td>
+                          {{ attr }}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
